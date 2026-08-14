@@ -28,6 +28,35 @@
             padding: 20px 10px;
         }
 
+        /* --- BOTÓN DE MÚSICA EN LA ESQUINA SUPERIOR IZQUIERDA (NO TAPA NADA) --- */
+        .music-btn-container {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1000;
+        }
+
+        .music-btn {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #f48fb1;
+            border-radius: 30px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(216, 27, 96, 0.2);
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+            color: #d81b60;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+        }
+
+        .music-btn:active {
+            transform: scale(0.95);
+        }
+
         .bg-hearts {
             position: absolute;
             top: 0;
@@ -286,7 +315,15 @@
 </head>
 <body>
 
-    <!-- Reproductorde audio del archivo subido -->
+    <!-- BOTÓN REPRODUCTOR FLOTANTE EN LA ESQUINA -->
+    <div class="music-btn-container">
+        <button class="music-btn" id="toggleMusic">
+            <span id="musicIcon">▶️</span>
+            <span id="musicText">Música</span>
+        </button>
+    </div>
+
+    <!-- AUDIO MP3 LOCAL -->
     <audio id="audioMusica" loop preload="auto">
         <source src="musica.mp3" type="audio/mpeg">
     </audio>
@@ -344,6 +381,37 @@
         const proposalTitle = document.getElementById('proposalTitle');
         const mensajeNo = document.getElementById('mensaje-no');
         const audioMusica = document.getElementById('audioMusica');
+        const toggleMusic = document.getElementById('toggleMusic');
+        const musicIcon = document.getElementById('musicIcon');
+        const musicText = document.getElementById('musicText');
+
+        function reproducirAudio() {
+            if (audioMusica) {
+                audioMusica.play().then(() => {
+                    musicIcon.innerText = "⏸️";
+                    musicText.innerText = "Reproduciendo";
+                }).catch(err => {
+                    console.log("Audio bloqueado:", err);
+                });
+            }
+        }
+
+        function pausarAudio() {
+            if (audioMusica) {
+                audioMusica.pause();
+                musicIcon.innerText = "▶️";
+                musicText.innerText = "Música";
+            }
+        }
+
+        toggleMusic.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (audioMusica.paused) {
+                reproducirAudio();
+            } else {
+                pausarAudio();
+            }
+        });
 
         function posicionarNoInicial() {
             btnNo.style.top = '0px';
@@ -351,11 +419,8 @@
         }
 
         card.addEventListener('click', () => {
-            // Reproducir musica al tocar la carta
-            if (audioMusica) {
-                audioMusica.play().catch(error => {
-                    console.log("Error al reproducir audio:", error);
-                });
+            if (audioMusica.paused) {
+                reproducirAudio();
             }
 
             card.classList.toggle('open');
