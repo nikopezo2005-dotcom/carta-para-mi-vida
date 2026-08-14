@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para el Amor de mi Vida</title>
+    <!-- Fuentes bonitas desde Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            /* Fondo con degradado pastel romántico */
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 50%, #f48fb1 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- DECORACIÓN DE FONDO --- */
+        body::before {
+            content: "✨  💖  ✨  💕  ✨  💗  ✨  💖  ✨  💕";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 24px;
+            opacity: 0.15;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: space-around;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Contenedor de corazones flotantes */
+        .bg-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-heart {
+            position: absolute;
+            bottom: -50px;
+            color: rgba(233, 30, 99, 0.25);
+            font-size: 20px;
+            animation: floatUp 8s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-105vh) rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        .main-wrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            max-width: 100vw;
+            padding: 20px;
+            z-index: 1;
+        }
+
+        /* --- CONTENEDOR DEL SOBRE Y CARTA --- */
+        .container {
+            position: relative;
+            cursor: pointer;
+            margin-top: 140px;
+        }
+
+        .envelope-wrapper {
+            background: #f8bbd0;
+            box-shadow: 0 12px 25px rgba(216, 27, 96, 0.25);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden; 
+        }
+
+        .container.open .envelope-wrapper {
+            overflow: visible;
+        }
+
+        .envelope {
+            position: relative;
+            width: 320px;
+            height: 220px;
+        }
+
+        /* Tapa del sobre */
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            z-index: 2;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 125px solid #f48fb1;
+            transform-origin: top;
+            transition: transform 0.5s ease;
+        }
+
+        /* Cuerpo del sobre */
+        .envelope::after {
+            content: '';
+            position: absolute;
+            z-index: 2;
+            width: 0;
+            height: 0;
+            border-left: 160px solid #f06292;
+            border-right: 160px solid #f06292;
+            border-bottom: 120px solid #ec407a;
+            border-top: 100px solid transparent;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        /* La Carta */
+        .letter {
+            position: absolute;
+            bottom: 5px;
+            left: 10px;
+            width: 300px;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transition: transform 0.6s ease-in-out;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .letter h2 {
+            font-family: 'Dancing Script', cursive;
+            color: #d81b60;
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+
+        .letter p {
+            color: #444;
+            font-size: 11.5px;
+            line-height: 1.4;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .timer-box {
+            background: #fff0f5;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px dashed #f48fb1;
+        }
+
+        .timer-title {
+            font-size: 11px;
+            color: #d81b60;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        #timer {
+            font-size: 11.5px;
+            color: #c2185b;
+            font-weight: 600;
+        }
+
+        /* Corazón decorativo */
+        .heart {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: #e91e63;
+            z-index: 3;
+            transform: translate(-50%, -50%) rotate(45deg);
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        .heart::before, .heart::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: #e91e63;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .heart::before { top: -10px; left: 0; }
+        .heart::after { left: -10px; top: 0; }
+
+        /* ANIMACIONES AL ABRIR */
+        .container.open .envelope::before {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        .container.open .letter {
+            transform: translateY(-220px);
+            z-index: 3;
+        }
+
+        .container.open .heart {
+            opacity: 0;
+        }
+
+        /* --- CUADRO DE PREGUNTA / PROPUESTA --- */
+        .proposal-card {
+            position: relative;
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(216, 27, 96, 0.2);
+            text-align: center;
+            width: 300px;
+            min-height: 180px;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.8);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            z-index: 10;
+        }
+
+        .proposal-card.show {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        .proposal-card h3 {
+            font-family: 'Dancing Script', cursive;
+            color: #d81b60;
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .btn-container {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            min-height: 50px;
+        }
+
+        .btn {
+            font-family: 'Poppins', sans-serif;
+            padding: 8px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        #btn-si {
+            background-color: #4caf50;
+            color: white;
+            z-index: 1;
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+        }
+
+        #btn-no {
+            background-color: #f44336;
+            color: white;
+            position: absolute;
+            transition: top 0.2s ease, left 0.2s ease;
+            z-index: 2;
+            box-shadow: 0 4px 10px rgba(244, 67, 54, 0.3);
+        }
+
+        #mensaje-no {
+            margin-top: 8px;
+            font-size: 12.5px;
+            color: #ad1457;
+            font-weight: 600;
+            min-height: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Audio de Fondo: Sleeping At Last - Turning Page -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://ia801503.us.archive.org/15/items/turning-page-sleeping-at-last/Turning%20Page%20-%20Sleeping%20At%20Last.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Corazones flotantes de fondo -->
+    <div class="bg-hearts" id="bgHearts"></div>
+
+    <div class="main-wrapper">
+        <!-- Carta / Sobre -->
+        <div class="container" id="cardContainer">
+            <div class="envelope-wrapper">
+                <div class="envelope">
+                    <div class="letter">
+                        <h2>Para el Amor de mi Vida ❤️</h2>
+                        <p>
+                            Ya queda poco para otro año juntos y no puedo estar más feliz, este tiempo a tu lado ha sido hermoso y estoy contento de pasar otro año más a tu lado, y por eso quería invitarte este domingo 16 a celebrar juntitos el final de 1 año juntos y el comienzo de otro año juntos comiendo en el Altivo.
+                        </p>
+                        <div class="timer-box">
+                            <div class="timer-title">Mi amor por ti comenzó hace...</div>
+                            <div id="timer">Cargando tiempo...</div>
+                        </div>
+                    </div>
+                    <div class="heart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cuadro con Pregunta -->
+        <div class="proposal-card" id="proposalCard">
+            <h3 id="proposalTitle">¿Aceptas ir a esta cita conmigo? ✨🍷</h3>
+            <p id="mensaje-no"></p>
+            <div class="btn-container" id="btnArea">
+                <button class="btn" id="btn-si">¡Sí!</button>
+                <button class="btn" id="btn-no">No</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Generar corazones flotantes dinámicos de fondo
+        const bgHearts = document.getElementById('bgHearts');
+        const heartIcons = ['❤️', '💖', '💕', '💗', '🌸'];
+
+        for (let i = 0; i < 25; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('bg-heart');
+            heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+            heart.style.left = `${Math.random() * 100}%`;
+            heart.style.animationDuration = `${5 + Math.random() * 7}s`;
+            heart.style.animationDelay = `${Math.random() * 5}s`;
+            heart.style.fontSize = `${14 + Math.random() * 18}px`;
+            bgHearts.appendChild(heart);
+        }
+
+        const card = document.getElementById('cardContainer');
+        const proposalCard = document.getElementById('proposalCard');
+        const btnNo = document.getElementById('btn-no');
+        const btnSi = document.getElementById('btn-si');
+        const proposalTitle = document.getElementById('proposalTitle');
+        const mensajeNo = document.getElementById('mensaje-no');
+        const bgMusic = document.getElementById('bgMusic');
+
+        function posicionarNoInicial() {
+            btnNo.style.top = '0px';
+            btnNo.style.left = '160px';
+        }
+
+        // Abrir/cerrar carta e iniciar la música al tocar la carta
+        card.addEventListener('click', () => {
+            // Reproducir música al abrir
+            if (bgMusic.paused) {
+                bgMusic.play().catch(e => console.log("Audio play blocked", e));
+            }
+
+            card.classList.toggle('open');
+            if (card.classList.contains('open')) {
+                setTimeout(() => {
+                    proposalCard.classList.add('show');
+                    posicionarNoInicial();
+                }, 400);
+            } else {
+                proposalCard.classList.remove('show');
+            }
+        });
+
+        const frases = [
+            "¿Segura? 🥺",
+            "¡Piénsalo otra vez!",
+            "Vamos, dale una oportunidad",
+            "¡No acepto un no por respuesta! ❤️",
+            "¡Me vas a romper el corazón! 💔",
+            "¡Sigue intentando! 😜",
+            "¡Esa opción está bloqueada! 🔒"
+        ];
+        let indiceFrase = 0;
+
+        function moverBotonNo(e) {
+            if (e) e.preventDefault();
+            
+            const areaWidth = proposalCard.clientWidth - btnNo.offsetWidth - 20;
+            const areaHeight = proposalCard.clientHeight - btnNo.offsetHeight - 20;
+
+            const x = Math.max(10, Math.floor(Math.random() * areaWidth));
+            const y = Math.max(10, Math.floor(Math.random() * areaHeight));
+
+            btnNo.style.position = 'absolute';
+            btnNo.style.left = `${x}px`;
+            btnNo.style.top = `${y}px`;
+
+            mensajeNo.innerText = frases[indiceFrase % frases.length];
+            indiceFrase++;
+        }
+
+        btnNo.addEventListener('mouseover', moverBotonNo);
+        btnNo.addEventListener('touchstart', moverBotonNo);
+        btnNo.addEventListener('click', moverBotonNo);
+
+        btnSi.addEventListener('click', () => {
+            proposalTitle.innerText = "¡Siiii! 🎉 Reserva confirmada para el domingo 16 ❤️✨";
+            mensajeNo.innerText = "¡Te amo muchísimo!";
+            btnSi.style.display = 'none';
+        });
+
+        // Contador de tiempo
+        const fechaInicio = new Date(2025, 7, 16, 0, 0, 0);
+
+        function actualizarContador() {
+            const ahora = new Date();
+            const diferencia = ahora - fechaInicio;
+
+            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+            const minutos = Math.floor((diferencia / 1000 / 60) % 60);
+            const segundos = Math.floor((diferencia / 1000) % 60);
+
+            document.getElementById('timer').innerText = 
+                `${dias} días, ${horas} horas, ${minutos} min, ${segundos} seg`;
+        }
+
+        setInterval(actualizarContador, 1000);
+        actualizarContador();
+    </script>
+</body>
+</html>
