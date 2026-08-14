@@ -20,33 +20,49 @@
             /* Fondo con degradado pastel romántico */
             background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 50%, #f48fb1 100%);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             font-family: 'Poppins', sans-serif;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
+            padding: 20px 10px;
+        }
+
+        /* --- CONTENEDOR DE MÚSICA --- */
+        .music-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            padding: 12px 20px;
+            border-radius: 50px;
+            box-shadow: 0 8px 20px rgba(216, 27, 96, 0.2);
+            border: 2px solid #f48fb1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            z-index: 10;
+        }
+
+        .music-info {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .music-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #d81b60;
+        }
+
+        .music-artist {
+            font-size: 11px;
+            color: #666;
         }
 
         /* --- DECORACIÓN DE FONDO --- */
-        body::before {
-            content: "✨  💖  ✨  💕  ✨  💗  ✨  💖  ✨  💕";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            font-size: 24px;
-            opacity: 0.15;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            align-content: space-around;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* Contenedor de corazones flotantes */
         .bg-hearts {
             position: absolute;
             top: 0;
@@ -88,7 +104,6 @@
             gap: 25px;
             flex-wrap: wrap;
             max-width: 100vw;
-            padding: 20px;
             z-index: 1;
         }
 
@@ -96,7 +111,7 @@
         .container {
             position: relative;
             cursor: pointer;
-            margin-top: 140px;
+            margin-top: 130px;
         }
 
         .envelope-wrapper {
@@ -309,14 +324,23 @@
             font-weight: 600;
             min-height: 20px;
         }
+
+        iframe {
+            display: none;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Elemento Audio nativo HTML5 con fallback -->
-    <audio id="audioMusica" loop preload="auto">
-        <source src="https://files.catbox.moe/k3i4w6.mp3" type="audio/mpeg">
-    </audio>
+    <!-- Reproductor visible de YouTube de la canción "Turning Page" -->
+    <div class="music-card">
+        <div class="music-info">
+            <span class="music-title">🎵 Turning Page</span>
+            <span class="music-artist">Sleeping At Last</span>
+        </div>
+        <!-- Reproductor incrustado de YouTube -->
+        <iframe width="200" height="40" src="https://www.youtube.com/embed/-hb2tecD13s?enablejsapi=1" title="Turning Page" frameborder="0" allow="autoplay"></iframe>
+    </div>
 
     <!-- Corazones flotantes de fondo -->
     <div class="bg-hearts" id="bgHearts"></div>
@@ -374,22 +398,14 @@
         const btnSi = document.getElementById('btn-si');
         const proposalTitle = document.getElementById('proposalTitle');
         const mensajeNo = document.getElementById('mensaje-no');
-        const audioMusica = document.getElementById('audioMusica');
 
         function posicionarNoInicial() {
             btnNo.style.top = '0px';
             btnNo.style.left = '160px';
         }
 
-        // Abrir/cerrar carta y reproducir la música al hacer clic
+        // Abrir/cerrar carta
         card.addEventListener('click', () => {
-            // Iniciar reproductor de audio
-            if (audioMusica) {
-                audioMusica.play().catch(error => {
-                    console.log("Error al reproducir audio:", error);
-                });
-            }
-
             card.classList.toggle('open');
             if (card.classList.contains('open')) {
                 setTimeout(() => {
