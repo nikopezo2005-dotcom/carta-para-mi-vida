@@ -313,9 +313,9 @@
 </head>
 <body>
 
-    <!-- Audio de Fondo: Sleeping At Last - Turning Page -->
-    <audio id="bgMusic" loop preload="auto">
-        <source src="https://ia801503.us.archive.org/15/items/turning-page-sleeping-at-last/Turning%20Page%20-%20Sleeping%20At%20Last.mp3" type="audio/mpeg">
+    <!-- Elemento Audio nativo HTML5 con fallback -->
+    <audio id="audioMusica" loop preload="auto">
+        <source src="https://files.catbox.moe/k3i4w6.mp3" type="audio/mpeg">
     </audio>
 
     <!-- Corazones flotantes de fondo -->
@@ -374,18 +374,20 @@
         const btnSi = document.getElementById('btn-si');
         const proposalTitle = document.getElementById('proposalTitle');
         const mensajeNo = document.getElementById('mensaje-no');
-        const bgMusic = document.getElementById('bgMusic');
+        const audioMusica = document.getElementById('audioMusica');
 
         function posicionarNoInicial() {
             btnNo.style.top = '0px';
             btnNo.style.left = '160px';
         }
 
-        // Abrir/cerrar carta e iniciar la música al tocar la carta
+        // Abrir/cerrar carta y reproducir la música al hacer clic
         card.addEventListener('click', () => {
-            // Reproducir música al abrir
-            if (bgMusic.paused) {
-                bgMusic.play().catch(e => console.log("Audio play blocked", e));
+            // Iniciar reproductor de audio
+            if (audioMusica) {
+                audioMusica.play().catch(error => {
+                    console.log("Error al reproducir audio:", error);
+                });
             }
 
             card.classList.toggle('open');
